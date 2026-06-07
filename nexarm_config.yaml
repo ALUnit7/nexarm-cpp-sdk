@@ -1,0 +1,46 @@
+# NexArm Calibration Config
+# ─────────────────────────────────────────────────────────────────────────────
+# 自动加载：程序按以下顺序查找此文件
+#   1. 可执行文件同目录下的 nexarm_config.yaml
+#   2. 工作目录下的 nexarm_config.yaml
+# 无需作为命令行参数传入。
+
+gripper:
+  # polarity: 夹爪方向极性
+  #   1  = 正常（open_value 张开，close_value 闭合）
+  #  -1  = 反转（open_value 闭合，close_value 张开）
+  polarity: 1
+
+  # open_value / close_value: claw 参数的物理极值
+  # 调整方法：运行 ex03_gripper.exe，观察实际开合方向和幅度，
+  # 若幅度不够则加大绝对值，若过冲则减小绝对值。
+  # 典型范围：-200 ~ 200，具体取决于夹爪型号。
+  open_value: -80      # 张开时 claw 目标值
+  close_value: 0       # 闭合时 claw 目标值
+
+tcp_offset:
+  # 工具中心点（TCP）相对于法兰面的偏移，单位 mm
+  # 更换末端后按实际测量值填写。
+  # 法兰面未变时保持 0.0 即可。
+  x: 0.0
+  y: 0.0
+  z: 0.0
+
+joint_limits:
+  # 末端可运动范围限制，单位 mm（pitch 单位 deg）
+  # set_pose 超出此范围时会被裁剪（需在代码中启用检查）。
+  x_min: -300
+  x_max:  300
+  y_min: -300
+  y_max:  300
+  z_min:   50
+  z_max:  400
+  pitch_min: -180.0
+  pitch_max:   90.0
+
+hand_eye:
+  # 手眼标定结果：相机到末端的变换矩阵 T_cam2gripper（4×4，行主序）
+  # enabled: false 时忽略此矩阵。
+  # 标定完成后将 enabled 改为 true 并填入实际矩阵。
+  enabled: false
+  matrix: [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]
