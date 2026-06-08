@@ -44,3 +44,14 @@ hand_eye:
   # 标定完成后将 enabled 改为 true 并填入实际矩阵。
   enabled: false
   matrix: [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]
+
+camera_intrinsics:
+  # 相机内参，由棋盘格标定获得（OrbbecSDK 不提供 Gemini 第一代内参）
+  # 运行 Python 标定脚本后，将结果填入此处。
+  # fx, fy: 焦距（像素）；cx, cy: 主点坐标（像素）
+  fx: 1364.05
+  fy: 1364.29
+  cx: 971.67
+  cy: 558.90
+  width: 1920
+  height: 1080

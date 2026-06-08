@@ -36,6 +36,11 @@ struct NexArmConfig {
     bool  hand_eye_enabled = false;
     float hand_eye[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
 
+    // Camera intrinsics (from chessboard calibration)
+    float cam_fx=0, cam_fy=0, cam_cx=0, cam_cy=0;
+    int   cam_width=0, cam_height=0;
+    bool  cam_intrinsics_valid() const { return cam_fx > 0; }
+
     // Helper: apply gripper polarity
     int gripper_open_value()  const { return gripper_polarity > 0 ? gripper_open  : gripper_close; }
     int gripper_close_value() const { return gripper_polarity > 0 ? gripper_close : gripper_open;  }
@@ -104,7 +109,6 @@ struct NexArmConfig {
             } else if (section == "hand_eye") {
                 if (key=="enabled") cfg.hand_eye_enabled = (val=="true");
                 if (key=="matrix") {
-                    // parse inline list: [v0, v1, ...]
                     auto s = val; s.erase(std::remove(s.begin(),s.end(),'['),s.end());
                                s.erase(std::remove(s.begin(),s.end(),']'),s.end());
                     std::istringstream ss(s);
@@ -112,6 +116,13 @@ struct NexArmConfig {
                     while (std::getline(ss,tok,',') && i<16)
                         cfg.hand_eye[i++] = std::stof(trim(tok));
                 }
+            } else if (section == "camera_intrinsics") {
+                if (key=="fx")     cfg.cam_fx     = stof(val);
+                if (key=="fy")     cfg.cam_fy     = stof(val);
+                if (key=="cx")     cfg.cam_cx     = stof(val);
+                if (key=="cy")     cfg.cam_cy     = stof(val);
+                if (key=="width")  cfg.cam_width  = stoi(val);
+                if (key=="height") cfg.cam_height = stoi(val);
             }
         }
         return cfg;
