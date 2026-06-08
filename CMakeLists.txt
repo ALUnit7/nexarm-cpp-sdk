@@ -54,8 +54,20 @@ target_link_libraries(ex05_camera PRIVATE nexarm orbbec_cam)
 add_executable(calibrate_intrinsic calibration/calibrate_intrinsic.cpp)
 target_link_libraries(calibrate_intrinsic PRIVATE orbbec_cam)
 
+add_executable(calibrate_handeye calibration/calibrate_handeye.cpp)
+target_link_libraries(calibrate_handeye PRIVATE nexarm orbbec_cam)
+
+add_executable(detect_dict calibration/detect_dict.cpp)
+target_link_libraries(detect_dict PRIVATE orbbec_cam)
+
+add_executable(debug_ab calibration/debug_ab.cpp)
+target_link_libraries(debug_ab PRIVATE nexarm orbbec_cam)
+
+add_executable(debug_pitch_only calibration/debug_pitch_only.cpp)
+target_link_libraries(debug_pitch_only PRIVATE nexarm orbbec_cam)
+
 # Copy DLLs for camera targets (post-build)
-foreach(cam_target ex05_camera calibrate_intrinsic)
+foreach(cam_target ex05_camera calibrate_intrinsic calibrate_handeye detect_dict debug_ab debug_pitch_only)
     copy_dlls_to_target(${cam_target} "${ORBBEC_SDK_DIR}/SDK/lib/*.dll")
     copy_dlls_to_target(${cam_target} "${OpenCV_DIR}/x64/vc16/bin/opencv_world4120*.dll")
 endforeach()
