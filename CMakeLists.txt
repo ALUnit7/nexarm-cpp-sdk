@@ -50,9 +50,15 @@ endforeach()
 add_executable(ex05_camera examples/ex05_camera.cpp)
 target_link_libraries(ex05_camera PRIVATE nexarm orbbec_cam)
 
-# Copy DLLs for camera example (post-build, generator-expression safe)
-copy_dlls_to_target(ex05_camera "${ORBBEC_SDK_DIR}/SDK/lib/*.dll")
-copy_dlls_to_target(ex05_camera "${OpenCV_DIR}/x64/vc16/bin/opencv_world4120*.dll")
+# ── Calibration tools ─────────────────────────────────────────────────────────
+add_executable(calibrate_intrinsic calibration/calibrate_intrinsic.cpp)
+target_link_libraries(calibrate_intrinsic PRIVATE orbbec_cam)
+
+# Copy DLLs for camera targets (post-build)
+foreach(cam_target ex05_camera calibrate_intrinsic)
+    copy_dlls_to_target(${cam_target} "${ORBBEC_SDK_DIR}/SDK/lib/*.dll")
+    copy_dlls_to_target(${cam_target} "${OpenCV_DIR}/x64/vc16/bin/opencv_world4120*.dll")
+endforeach()
 
 # ── Config file ───────────────────────────────────────────────────────────────
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nexarm_config.yaml
