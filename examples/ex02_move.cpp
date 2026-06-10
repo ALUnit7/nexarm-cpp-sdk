@@ -28,18 +28,19 @@ int main(int argc, char* argv[]) {
     read_pos("Home:    ");
 
     std::cout << "dz -50mm...\n";
-    arm.move_increment(0, 0, -50, 0, 0, 0, 800);
-    std::this_thread::sleep_for(1000ms);
+    arm.move_increment(100, 0, 0, 0, 0, 0, 800);
+    std::this_thread::sleep_for(2000ms);
     read_pos("After dz:");
 
     std::cout << "dpitch -30deg...\n";
-    arm.move_increment(0, 0, 0, -30, 0, 0, 800);
-    std::this_thread::sleep_for(1000ms);
+    arm.move_increment(100, 0, 0, -20, 0, 0, 800);
+    std::this_thread::sleep_for(2000ms);
     read_pos("After dp:");
 
     std::cout << "Returning home...\n";
     arm.set_pose(200, 0, 200, 0, 0, 0, 1500);
-    std::this_thread::sleep_for(1800ms);
+    std::this_thread::sleep_for(2800ms);
+    read_pos("After ret:");
 
     arm.close();
     return 0;

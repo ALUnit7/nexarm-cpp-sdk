@@ -39,19 +39,18 @@ joint_limits:
   pitch_max:   90.0
 
 hand_eye:
-  # 手眼标定结果：相机到末端的变换矩阵 T_cam2gripper（4×4，行主序）
-  # enabled: false 时忽略此矩阵。
-  # 标定完成后将 enabled 改为 true 并填入实际矩阵。
-  enabled: false
-  matrix: [1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]
+  # T_cam2gripper: manually measured
+  # Camera center: 115.26mm along X, 106.12mm along Z in end-effector frame
+  # Camera tilted -10deg around Y axis (pointing slightly toward gripper)
+  # R = Ry(-10deg), t = [115.26, 0, 106.12]
+  enabled: true
+  matrix: [0.985,0,-0.174,115.26, 0,1,0,0, 0.174,0,0.985,106.12, 0,0,0,1]
 
 camera_intrinsics:
-  # 相机内参，由棋盘格标定获得（OrbbecSDK 不提供 Gemini 第一代内参）
-  # 运行 Python 标定脚本后，将结果填入此处。
-  # fx, fy: 焦距（像素）；cx, cy: 主点坐标（像素）
   fx: 1350.96
   fy: 1351.34
   cx: 980.604
   cy: 564.522
   width: 1920
   height: 1080
+  dist: [0.098305, -0.234077, 0.001831, 0.001120, 0.131511]

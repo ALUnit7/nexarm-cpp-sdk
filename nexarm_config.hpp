@@ -39,6 +39,7 @@ struct NexArmConfig {
     // Camera intrinsics (from chessboard calibration)
     float cam_fx=0, cam_fy=0, cam_cx=0, cam_cy=0;
     int   cam_width=0, cam_height=0;
+    float cam_dist[5] = {0,0,0,0,0};
     bool  cam_intrinsics_valid() const { return cam_fx > 0; }
 
     // Helper: apply gripper polarity
@@ -123,6 +124,12 @@ struct NexArmConfig {
                 if (key=="cy")     cfg.cam_cy     = stof(val);
                 if (key=="width")  cfg.cam_width  = stoi(val);
                 if (key=="height") cfg.cam_height = stoi(val);
+                if (key=="dist") {
+                    auto s2=val; s2.erase(std::remove(s2.begin(),s2.end(),'['),s2.end());
+                                 s2.erase(std::remove(s2.begin(),s2.end(),']'),s2.end());
+                    std::istringstream ss(s2); std::string tok; int i=0;
+                    while(std::getline(ss,tok,',') && i<5) cfg.cam_dist[i++]=std::stof(trim(tok));
+                }
             }
         }
         return cfg;
