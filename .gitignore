@@ -5,3 +5,6 @@ cmake-build-*/
 *.lib
 *.obj
 *.pdb
+# Large binary files in OrbbecSDK_linux (download separately)
+OrbbecSDK_linux/*.zip
+OrbbecSDK_linux/*.deb
