@@ -39,12 +39,11 @@ joint_limits:
   pitch_max:   90.0
 
 hand_eye:
-  # T_cam2gripper: manually measured
-  # Camera center: 115.26mm along X, 106.12mm along Z in end-effector frame
-  # Camera tilted -10deg around Y axis (pointing slightly toward gripper)
-  # R = Ry(-10deg), t = [115.26, 0, 106.12]
+  # T_cam2gripper: camera in end-effector frame
+  # t = [tx, ty, tz] in mm, R = identity (camera aligned with end-effector)
+  # Adjust based on actual measurement results
   enabled: true
-  matrix: [0.985,0,-0.174,115.26, 0,1,0,0, 0.174,0,0.985,106.12, 0,0,0,1]
+  matrix: [1,0,0,115.26, 0,1,0,0, 0,0,1,106.12, 0,0,0,1]
 
 camera_intrinsics:
   fx: 1350.96

@@ -42,7 +42,7 @@ endfunction()
 add_executable(test_nexarm test_nexarm.cpp)
 target_link_libraries(test_nexarm PRIVATE nexarm)
 
-foreach(ex 01_status 02_move 03_gripper 04_config)
+foreach(ex 01_status 02_move 03_gripper 04_config 06_right_down)
     add_executable(ex${ex} examples/ex${ex}.cpp)
     target_link_libraries(ex${ex} PRIVATE nexarm)
 endforeach()
@@ -54,8 +54,20 @@ target_link_libraries(ex05_camera PRIVATE nexarm orbbec_cam)
 add_executable(calibrate_intrinsic calibration/calibrate_intrinsic.cpp)
 target_link_libraries(calibrate_intrinsic PRIVATE orbbec_cam)
 
+add_executable(measure_compensate calibration/measure_compensate.cpp)
+target_link_libraries(measure_compensate PRIVATE nexarm orbbec_cam)
+
+add_executable(detect_move_red calibration/detect_move_red.cpp)
+target_link_libraries(detect_move_red PRIVATE nexarm orbbec_cam)
+
+add_executable(calibrate_offset calibration/calibrate_offset.cpp)
+target_link_libraries(calibrate_offset PRIVATE nexarm orbbec_cam)
+
+add_executable(test_depth calibration/test_depth.cpp)
+target_link_libraries(test_depth PRIVATE orbbec_cam)
+
 # Copy DLLs for camera targets (post-build)
-foreach(cam_target ex05_camera calibrate_intrinsic)
+foreach(cam_target ex05_camera calibrate_intrinsic measure_compensate detect_move_red calibrate_offset test_depth)
     copy_dlls_to_target(${cam_target} "${ORBBEC_SDK_DIR}/SDK/lib/*.dll")
     copy_dlls_to_target(${cam_target} "${OpenCV_DIR}/x64/vc16/bin/opencv_world4120*.dll")
 endforeach()
